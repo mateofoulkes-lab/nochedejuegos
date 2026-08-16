@@ -1,323 +1,94 @@
 <!doctype html>
 <html lang="es">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <meta name="theme-color" content="#10111a" />
-  <title>Noche de Juegos</title>
-  <style>
-    :root{--bg:#10111a;--panel:#191b28;--panel2:#222536;--txt:#f7f4ea;--muted:#aaaec3;--accent:#ffd166;--danger:#ff6b6b;--ok:#73d2a5;--line:#32364b}
-    *{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 20% 0,#25233a 0,var(--bg) 45%);color:var(--txt);font-family:system-ui,-apple-system,Segoe UI,sans-serif;min-height:100vh}
-    button,input,select{font:inherit}button{border:0;border-radius:14px;padding:13px 16px;background:var(--accent);color:#171717;font-weight:800;cursor:pointer}button.secondary{background:var(--panel2);color:var(--txt);border:1px solid var(--line)}button.danger{background:var(--danger)}button:disabled{opacity:.45;cursor:not-allowed}
-    input,select{width:100%;padding:13px 14px;border-radius:12px;border:1px solid var(--line);background:#0d0f18;color:var(--txt)}
-    .app{max-width:820px;margin:auto;padding:18px 16px 90px}.top{display:flex;align-items:center;justify-content:space-between;gap:12px}.brand{font-size:clamp(25px,7vw,42px);font-weight:950;letter-spacing:-1.5px}.version{color:var(--muted);font-size:12px}.card{background:rgba(25,27,40,.94);border:1px solid var(--line);border-radius:22px;padding:18px;margin-top:16px;box-shadow:0 18px 50px #0004}.muted{color:var(--muted)}.tiny{font-size:12px}.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.row>*{flex:1}.stack{display:grid;gap:10px}.games{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.game{min-height:126px;text-align:left;background:var(--panel2);color:var(--txt);border:1px solid var(--line);display:flex;flex-direction:column;justify-content:space-between}.game b{font-size:20px}.emoji{font-size:34px}.pill{display:inline-flex;border:1px solid var(--line);background:#11131d;border-radius:999px;padding:7px 10px;gap:7px;align-items:center}.dot{width:9px;height:9px;border-radius:50%;background:var(--muted)}.dot.on{background:var(--ok);box-shadow:0 0 12px var(--ok)}.players{display:grid;gap:8px}.player{display:flex;justify-content:space-between;align-items:center;padding:11px 12px;border-radius:13px;background:#10121b;border:1px solid var(--line)}.secret{padding:24px 18px;border:1px dashed #ffffff44;border-radius:20px;text-align:center;background:linear-gradient(145deg,#20243a,#171927)}.secret .big{font-size:clamp(30px,10vw,56px);font-weight:950;word-break:break-word}.actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.actions button{min-height:58px}.center{text-align:center}.hidden{display:none!important}.toast{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);background:#080910;border:1px solid var(--line);border-radius:999px;padding:10px 15px;max-width:90vw;z-index:20;box-shadow:0 8px 30px #0008}.log{max-height:180px;overflow:auto;font-size:13px;color:#d1d4e5;padding:10px;background:#0d0f18;border-radius:12px}.token{font-size:30px;padding:14px}.score{font-size:30px;font-weight:900}.hand{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.playing-card{background:#f5ead6;color:#221b14;min-height:150px;border-radius:18px;padding:14px;border:3px solid #0002;display:flex;flex-direction:column;justify-content:space-between}.playing-card button{margin-top:8px}.badge{font-size:12px;font-weight:800;opacity:.7}.rule{border-top:1px solid var(--line);margin:14px 0}.dangerText{color:#ff9d9d}.okText{color:#9df0c2}.bigTitle{font-size:26px;font-weight:900}.choice{background:#0f111a;border:1px solid var(--line);padding:12px;border-radius:14px}.choice input{width:auto}.count{font-variant-numeric:tabular-nums;font-weight:900}
-    @media(max-width:520px){.games,.actions{grid-template-columns:1fr}.row.mobilecol{display:grid}.app{padding-inline:12px}.card{padding:15px}}
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#10111a">
+<title>Noche de Juegos</title>
+<style>
+:root{--bg:#10111a;--panel:#191b28;--panel2:#23263a;--txt:#f8f5ec;--muted:#aeb2c8;--accent:#ffd166;--line:#34384f;--ok:#73d2a5}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(circle at 20% 0,#28263f 0,var(--bg) 48%);color:var(--txt);font-family:system-ui,-apple-system,Segoe UI,sans-serif}
+button,input{font:inherit}button{border:0;border-radius:15px;padding:14px 17px;background:var(--accent);color:#171717;font-weight:850;cursor:pointer}button.secondary{background:var(--panel2);color:var(--txt);border:1px solid var(--line)}
+.app{max-width:760px;margin:auto;padding:18px 14px 80px}.top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}.brand{font-size:clamp(27px,7vw,42px);font-weight:950;letter-spacing:-1.4px}.version{font-size:12px;color:var(--muted)}
+.card{margin-top:16px;padding:18px;background:rgba(25,27,40,.96);border:1px solid var(--line);border-radius:23px;box-shadow:0 18px 50px #0004}.muted{color:var(--muted)}.bigTitle{font-size:25px;font-weight:900}.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.row>*{flex:1}.hidden{display:none!important}
+input{width:100%;padding:14px;border-radius:13px;border:1px solid var(--line);background:#0d0f18;color:var(--txt)}.players{display:grid;gap:8px}.player{display:flex;justify-content:space-between;padding:11px 12px;background:#10121b;border:1px solid var(--line);border-radius:13px}
+.games{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.game{min-height:140px;text-align:left;background:var(--panel2);color:var(--txt);border:1px solid var(--line);display:flex;flex-direction:column;justify-content:space-between}.game b{font-size:19px}.emoji{font-size:36px}.center{text-align:center}
+.secret{margin-top:14px;padding:26px 18px;border:1px dashed #ffffff50;border-radius:21px;text-align:center;background:linear-gradient(145deg,#20243a,#171927)}.secret .big{font-size:clamp(31px,10vw,58px);font-weight:950;line-height:1.05}.secret .medium{font-size:clamp(21px,6vw,34px);font-weight:850}.secretHidden .secretContent{filter:blur(18px);user-select:none}.hold{width:100%;margin-top:14px;background:#34384f;color:white}.adminActions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}.pill{display:inline-flex;gap:7px;align-items:center;border:1px solid var(--line);border-radius:999px;padding:7px 10px;background:#11131d}.dot{width:9px;height:9px;border-radius:50%;background:var(--muted)}.dot.on{background:var(--ok);box-shadow:0 0 11px var(--ok)}.rule{border-top:1px solid var(--line);margin:14px 0}.toast{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);background:#080910;border:1px solid var(--line);border-radius:999px;padding:10px 15px;max-width:90vw;z-index:20}.how{padding:12px 14px;background:#10121b;border-radius:14px;color:#d6d8e6;line-height:1.45}
+@media(max-width:600px){.games{grid-template-columns:1fr}.row.mobile{display:grid}.adminActions{grid-template-columns:1fr}}
+</style>
 </head>
 <body>
 <div class="app">
-  <div class="top"><div><div class="brand">🎲 Noche de Juegos</div><div class="muted">El celu ayuda. La mesa manda.</div></div><div class="version">v0.1.0</div></div>
-  <section id="identity" class="card">
-    <div class="bigTitle">¿Quién sos?</div><p class="muted">Tu nombre queda guardado sólo en este dispositivo.</p>
-    <div class="row mobilecol"><input id="nameInput" maxlength="20" placeholder="Nombre" /><button id="enterBtn">Entrar a la mesa</button></div>
-  </section>
-
-  <main id="main" class="hidden">
-    <section class="card">
-      <div class="row"><div class="pill"><span id="netDot" class="dot"></span><span id="netText">Conectando…</span></div><div id="rolePill" class="pill">Jugador</div></div>
-      <div class="rule"></div><div class="players" id="players"></div>
-    </section>
-
-    <section id="selector" class="card hidden">
-      <div class="bigTitle">Elegí el juego</div><p class="muted">Una sola mesa, sin códigos ni salas.</p>
-      <div class="games">
-        <button class="game" data-game="chameleon"><span class="emoji">🦎</span><span><b>Camaleón</b><br><span class="muted">Palabra secreta + infiltrado</span></span></button>
-        <button class="game" data-game="skull"><span class="emoji">💀</span><span><b>Calaveras</b><br><span class="muted">Farol, apuesta y fichas ocultas</span></span></button>
-        <button class="game" data-game="spicy"><span class="emoji">🌶️</span><span><b>Picante</b><br><span class="muted">Cartas boca abajo + mentira</span></span></button>
-        <button class="game" data-game="coup"><span class="emoji">👑</span><span><b>Golpe</b><br><span class="muted">Roles, monedas y desafíos</span></span></button>
-      </div>
-    </section>
-
-    <section id="waiting" class="card hidden center"><div class="emoji">🪑</div><div class="bigTitle">Esperando al admin</div><p class="muted">Cuando elija un juego, todos entran automáticamente.</p></section>
-    <section id="game" class="card hidden"></section>
-  </main>
-</div>
-<div id="toast" class="toast hidden"></div>
-
+ <div class="top"><div><div class="brand">🎲 Noche de Juegos</div><div class="muted">El celu reparte. La mesa juega.</div></div><div class="version">v0.2.0</div></div>
+ <section id="identity" class="card"><div class="bigTitle">¿Quién sos?</div><p class="muted">El nombre queda guardado en este dispositivo.</p><div class="row mobile"><input id="nameInput" maxlength="20" placeholder="Nombre"><button id="enterBtn">Entrar</button></div></section>
+ <main id="main" class="hidden">
+  <section class="card"><div class="row"><div class="pill"><span id="netDot" class="dot"></span><span id="netText">Conectando…</span></div><div id="rolePill" class="pill">Jugador</div></div><div class="rule"></div><div id="players" class="players"></div></section>
+  <section id="selector" class="card hidden"><div class="bigTitle">Elegí el juego</div><p class="muted">El teléfono sólo maneja la información secreta.</p><div class="games">
+   <button class="game" data-game="chameleon"><span class="emoji">🦎</span><span><b>Camaleón</b><br><span class="muted">Una palabra y un infiltrado.</span></span></button>
+   <button class="game" data-game="spyfall"><span class="emoji">🕵️</span><span><b>Spyfall</b><br><span class="muted">Todos conocen el lugar menos el espía.</span></span></button>
+   <button class="game" data-game="coup"><span class="emoji">👑</span><span><b>Golpe</b><br><span class="muted">El celu sólo reparte los roles.</span></span></button>
+  </div></section>
+  <section id="waiting" class="card hidden center"><div class="emoji">🪑</div><div class="bigTitle">Esperando al admin</div><p class="muted">Cuando elija un juego entran todos automáticamente.</p></section>
+  <section id="game" class="card hidden"></section>
+ </main>
+</div><div id="toast" class="toast hidden"></div>
 <script type="module">
-import {joinRoom, selfId} from 'https://esm.run/trystero'
-
-const APP_ID='noche-de-juegos-mateofoulkes-lab-v1'
-const ROOM_ID='mesa-unica'
-const VERSION='0.1.0'
-const $=s=>document.querySelector(s)
-const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]))
-const shuffle=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
-const rand=a=>a[Math.floor(Math.random()*a.length)]
-const toast=msg=>{const t=$('#toast');t.textContent=msg;t.classList.remove('hidden');clearTimeout(toast.t);toast.t=setTimeout(()=>t.classList.add('hidden'),2600)}
-
-let myName=localStorage.getItem('ndj-name')||''
-let room, actions={}
-let isHost=false, hostId=null, hostSeen=false
-let peers={}
-let selectedGame=null
-let state=null
-let myPrivate=null
-let connected=false
-let claimTimer=null
-
-const gameNames={chameleon:'Camaleón',skull:'Calaveras',spicy:'Picante',coup:'Golpe'}
-const chameleonWords={
-  'Animales':['Pingüino','Jirafa','Elefante','Tiburón','Conejo','Pulpo','Cocodrilo','Panda'],
-  'Comidas':['Pizza','Empanada','Sushi','Hamburguesa','Taco','Milanesa','Helado','Ravioles'],
-  'Lugares':['Playa','Hospital','Aeropuerto','Museo','Cementerio','Supermercado','Teatro','Camping'],
-  'Objetos':['Paraguas','Martillo','Cepillo','Tijera','Almohada','Valija','Linterna','Escoba'],
-  'Personajes':['Batman','Shrek','Drácula','Superman','Barbie','Pinocho','Tarzán','Godzilla']
+import {joinRoom,selfId} from 'https://esm.run/trystero'
+const APP_ID='noche-de-juegos-mateofoulkes-lab-v2', ROOM_ID='mesa-unica', VERSION='0.2.0'
+const $=s=>document.querySelector(s), esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]))
+const shuffle=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}, rand=a=>a[Math.floor(Math.random()*a.length)]
+const toast=m=>{const t=$('#toast');t.textContent=m;t.classList.remove('hidden');clearTimeout(toast.t);toast.t=setTimeout(()=>t.classList.add('hidden'),2200)}
+let myName=localStorage.getItem('ndj-name')||'', room, actions={}, peers={}, isHost=false,hostId=null,hostSeen=false,claimTimer=null,selectedGame=null,state=null,myPrivate=null
+const gameNames={chameleon:'Camaleón',spyfall:'Spyfall',coup:'Golpe'}
+const chameleonWords={Animales:['Pingüino','Jirafa','Elefante','Tiburón','Conejo','Pulpo','Cocodrilo','Panda'],Comidas:['Pizza','Empanada','Sushi','Hamburguesa','Taco','Milanesa','Helado','Ravioles'],Lugares:['Playa','Hospital','Aeropuerto','Museo','Cementerio','Supermercado','Teatro','Camping'],Objetos:['Paraguas','Martillo','Cepillo','Tijera','Almohada','Valija','Linterna','Escoba'],Personajes:['Batman','Shrek','Drácula','Superman','Barbie','Pinocho','Tarzán','Godzilla']}
+const spyLocations={
+ 'Aeropuerto':['Piloto','Azafata','Pasajero','Seguridad','Mecánico'],
+ 'Hospital':['Médico','Enfermero','Paciente','Cirujano','Visitante'],
+ 'Restaurante':['Chef','Mozo','Cliente','Encargado','Lavaplatos'],
+ 'Playa':['Guardavidas','Turista','Vendedor','Surfista','Pescador'],
+ 'Teatro':['Actor','Director','Espectador','Iluminador','Acomodador'],
+ 'Escuela':['Docente','Alumno','Director','Preceptor','Portero'],
+ 'Supermercado':['Cajero','Cliente','Repositor','Gerente','Seguridad'],
+ 'Hotel':['Recepcionista','Huésped','Botones','Gerente','Mucama'],
+ 'Estadio':['Jugador','Árbitro','Hincha','Periodista','Seguridad'],
+ 'Museo':['Guía','Turista','Curador','Guardia','Restaurador'],
+ 'Camping':['Campista','Guardaparque','Excursionista','Cocinero','Guía'],
+ 'Banco':['Cajero','Cliente','Gerente','Seguridad','Contador']
 }
-const spicySuits=['🌶️ Chile','🌿 Wasabi','⚫ Pimienta']
-const coupRoles=['Duque','Asesino','Capitán','Embajador','Condesa']
-
-if(myName){$('#nameInput').value=myName}
-$('#enterBtn').onclick=()=>{const n=$('#nameInput').value.trim();if(!n)return toast('Poné un nombre primero');myName=n;localStorage.setItem('ndj-name',n);start()}
-
-async function start(){
-  $('#identity').classList.add('hidden');$('#main').classList.remove('hidden')
-  room=joinRoom({appId:APP_ID},ROOM_ID)
-  setupActions()
-  room.onPeerJoin=peerId=>{connected=true;peers[peerId]={id:peerId,name:'Conectando…'};renderPlayers();sendHello({name:myName,host:isHost,game:selectedGame},{target:peerId});if(isHost)sendSnapshot(makePublicSnapshot(),{target:peerId})}
-  room.onPeerLeave=peerId=>{delete peers[peerId];if(peerId===hostId){hostId=null;hostSeen=false;isHost=false;toast('El admin se desconectó');scheduleClaim()}renderAll()}
-  $('#netDot').classList.add('on');$('#netText').textContent='Mesa P2P activa'
-  scheduleClaim()
-  renderAll()
+const coupRoles=['Duque','Duque','Duque','Asesino','Asesino','Asesino','Capitán','Capitán','Capitán','Embajador','Embajador','Embajador','Condesa','Condesa','Condesa']
+if(myName)$('#nameInput').value=myName
+$('#enterBtn').onclick=()=>{const n=$('#nameInput').value.trim();if(!n)return toast('Poné un nombre');myName=n;localStorage.setItem('ndj-name',n);start()}
+function start(){ $('#identity').classList.add('hidden');$('#main').classList.remove('hidden');room=joinRoom({appId:APP_ID},ROOM_ID);setupActions();room.onPeerJoin=id=>{peers[id]={id,name:'Conectando…'};renderAll();actions.hello.send({name:myName,host:isHost,game:selectedGame},{target:id});if(isHost){actions.snapshot.send(snapshot(),{target:id});sendPrivate(id)}};room.onPeerLeave=id=>{delete peers[id];if(id===hostId){hostId=null;hostSeen=false;isHost=false;scheduleClaim()}renderAll()};$('#netDot').classList.add('on');$('#netText').textContent='Mesa P2P activa';scheduleClaim();renderAll()}
+function setupActions(){for(const n of ['hello','host','snapshot','choose','private'])actions[n]=room.makeAction(n)
+ actions.hello.onMessage=(d,{peerId})=>{peers[peerId]={id:peerId,name:d.name||'Jugador'};if(d.host)adoptHost(peerId);if(d.game&&!selectedGame)selectedGame=d.game;if(isHost){actions.hello.send({name:myName,host:true,game:selectedGame},{target:peerId});actions.snapshot.send(snapshot(),{target:peerId});sendPrivate(peerId)}renderAll()}
+ actions.host.onMessage=(_d,{peerId})=>{if(isHost){actions.hello.send({name:myName,host:true,game:selectedGame},{target:peerId});return}adoptHost(peerId);renderAll()}
+ actions.snapshot.onMessage=(d,{peerId})=>{if(hostId&&peerId!==hostId)return;adoptHost(peerId);selectedGame=d.game||null;state=d.state||null;if(!state)myPrivate=null;renderAll()}
+ actions.choose.onMessage=(d,{peerId})=>{if(peerId!==hostId)return;selectedGame=d.game||null;state=null;myPrivate=null;renderAll()}
+ actions.private.onMessage=(d,{peerId})=>{if(hostId&&peerId!==hostId)return;myPrivate=d;renderGame()}
 }
-
-function setupActions(){
-  const names=['hello','host-claim','snapshot','choose-game','start-game','private','intent','event']
-  for(const n of names)actions[n]=room.makeAction(n)
-  window.sendHello=actions.hello.send;window.sendSnapshot=actions.snapshot.send
-  actions.hello.onMessage=(data,{peerId})=>{
-    peers[peerId]={id:peerId,name:data.name||'Jugador'}
-    if(data.host){adoptHost(peerId)}
-    if(data.game&&!selectedGame){selectedGame=data.game}
-    if(isHost){actions.hello.send({name:myName,host:true,game:selectedGame},{target:peerId});actions.snapshot.send(makePublicSnapshot(),{target:peerId});sendPrivateTo(peerId)}
-    renderAll()
-  }
-  actions['host-claim'].onMessage=(data,{peerId})=>{
-    if(isHost){actions.hello.send({name:myName,host:true,game:selectedGame},{target:peerId});return}
-    adoptHost(peerId);renderAll()
-  }
-  actions.snapshot.onMessage=(data,{peerId})=>{if(hostId&&peerId!==hostId)return;adoptHost(peerId);selectedGame=data.game||null;state=data.state||null;renderAll()}
-  actions['choose-game'].onMessage=(data,{peerId})=>{if(peerId!==hostId)return;selectedGame=data.game;state=null;myPrivate=null;renderAll()}
-  actions['start-game'].onMessage=(data,{peerId})=>{if(peerId!==hostId)return;selectedGame=data.game;state=data.state;renderAll()}
-  actions.private.onMessage=(data,{peerId})=>{if(peerId!==hostId&&hostId)return;myPrivate=data;renderGame()}
-  actions.intent.onMessage=(data,{peerId})=>{if(!isHost)return;handleIntent(peerId,data)}
-  actions.event.onMessage=(data,{peerId})=>{if(hostId&&peerId!==hostId)return;toast(data.text);if(data.snapshot){selectedGame=data.snapshot.game;state=data.snapshot.state}renderAll()}
-}
-
-function scheduleClaim(){
-  clearTimeout(claimTimer)
-  claimTimer=setTimeout(()=>{if(!hostSeen&&!hostId){becomeHost()}},700)
-}
-function becomeHost(){isHost=true;hostId=selfId;hostSeen=true;actions['host-claim'].send({name:myName});actions.hello.send({name:myName,host:true,game:selectedGame});toast('Sos el admin de la mesa');renderAll()}
+function scheduleClaim(){clearTimeout(claimTimer);claimTimer=setTimeout(()=>{if(!hostSeen&&!hostId)becomeHost()},800)}
+function becomeHost(){isHost=true;hostId=selfId;hostSeen=true;actions.host.send({});actions.hello.send({name:myName,host:true,game:selectedGame});toast('Sos el admin');renderAll()}
 function adoptHost(id){if(isHost&&id!==selfId)return;hostId=id;hostSeen=true;isHost=id===selfId;clearTimeout(claimTimer)}
 function allPlayers(){return [{id:selfId,name:myName},...Object.values(peers)].filter((p,i,a)=>a.findIndex(x=>x.id===p.id)===i)}
-function playerName(id){return id===selfId?myName:(peers[id]?.name||'Jugador')}
-function renderPlayers(){
-  const ps=allPlayers();$('#players').innerHTML=ps.map(p=>`<div class="player"><span>${esc(p.name)} ${p.id===selfId?'<span class="muted">(vos)</span>':''}</span><span>${p.id===hostId?'👑 admin':'●'}</span></div>`).join('')
-}
-function renderAll(){
-  renderPlayers();$('#rolePill').textContent=isHost?'👑 Admin':'🎲 Jugador'
-  const selector=$('#selector'),waiting=$('#waiting'),game=$('#game')
-  selector.classList.toggle('hidden',!!selectedGame||!isHost);waiting.classList.toggle('hidden',!!selectedGame||isHost);game.classList.toggle('hidden',!selectedGame)
-  document.querySelectorAll('[data-game]').forEach(b=>b.onclick=()=>chooseGame(b.dataset.game))
-  renderGame()
-}
-function chooseGame(g){if(!isHost)return;selectedGame=g;state=null;myPrivate=null;actions['choose-game'].send({game:g});renderAll()}
-function backToSelector(){if(!isHost)return;selectedGame=null;state=null;myPrivate=null;actions['choose-game'].send({game:null});actions.snapshot.send(makePublicSnapshot());renderAll()}
-function makePublicSnapshot(){return {version:VERSION,game:selectedGame,state:state?publicState(state):null}}
-function publicState(s){if(!s)return null;const c=structuredClone(s);delete c.privateById;delete c.deck;return c}
-function sync(text){const snap=makePublicSnapshot();actions.snapshot.send(snap);if(text)actions.event.send({text,snapshot:snap});renderAll()}
-function sendPrivateTo(id){if(!state?.privateById?.[id])return;actions.private.send(state.privateById[id],{target:id})}
-function sendAllPrivate(){if(!state?.privateById)return;for(const [id,data] of Object.entries(state.privateById)){if(id===selfId)myPrivate=data;else actions.private.send(data,{target:id})}}
-function intent(type,payload={}){if(isHost)handleIntent(selfId,{type,...payload});else actions.intent.send({type,...payload},{target:hostId})}
-function baseHeader(title,emoji){return `<div class="row"><div><div class="bigTitle">${emoji} ${title}</div><div class="muted">${allPlayers().length} jugadores conectados</div></div>${isHost?'<button id="backBtn" class="secondary">← Juegos</button>':''}</div><div class="rule"></div>`}
-function wireBase(){if(isHost&&$('#backBtn'))$('#backBtn').onclick=backToSelector}
-
-function renderGame(){
-  if(!selectedGame||$('#game').classList.contains('hidden'))return
-  if(selectedGame==='chameleon')renderChameleon()
-  if(selectedGame==='skull')renderSkull()
-  if(selectedGame==='spicy')renderSpicy()
-  if(selectedGame==='coup')renderCoup()
-  wireBase()
-}
-
-// ---------- CAMALEÓN ----------
-function renderChameleon(){
-  const el=$('#game');let h=baseHeader('Camaleón','🦎')
-  if(!state){
-    h+=`<p>Uno no conoce la palabra. Las pistas, acusaciones y discusión se hacen <b>hablando en la mesa</b>.</p>${isHost?'<button id="startCh">Repartir secretos</button>':'<p class="muted">Esperando que el admin reparta…</p>'}`
-  }else{
-    h+=`<div class="secret"><div class="muted">Tu información secreta</div>${myPrivate?.isChameleon?'<div class="big">🦎 SOS EL CAMALEÓN</div><p>No conocés la palabra. Disimulá.</p>':`<div class="big">${esc(myPrivate?.word||'…')}</div><p>Categoría: <b>${esc(myPrivate?.category||state.category)}</b></p>`}</div>`
-    h+=`<p class="center">Primero dice una pista: <b>${esc(playerName(state.firstPlayer))}</b></p><p class="muted center">Después sigan en ronda, una pista corta por persona.</p>`
-    if(myPrivate?.isChameleon)h+=`<div class="rule"></div><label>Si te descubren, podés escribir tu intento de palabra:</label><div class="row"><input id="guessInput" placeholder="Mi intento…"><button id="guessBtn">Mostrar intento</button></div>`
-    if(isHost)h+=`<div class="rule"></div><button id="newCh" class="secondary">Nueva ronda</button>`
-  }
-  el.innerHTML=h
-  if($('#startCh'))$('#startCh').onclick=startChameleon;if($('#newCh'))$('#newCh').onclick=startChameleon
-  if($('#guessBtn'))$('#guessBtn').onclick=()=>{const v=$('#guessInput').value.trim();if(v)intent('ch-guess',{guess:v})}
-}
-function startChameleon(){
-  if(!isHost)return;const ps=allPlayers();if(ps.length<3)return toast('Camaleón necesita al menos 3 jugadores')
-  const category=rand(Object.keys(chameleonWords)),word=rand(chameleonWords[category]),cham=rand(ps),first=rand(ps)
-  const privateById={};ps.forEach(p=>privateById[p.id]={game:'chameleon',category,isChameleon:p.id===cham.id,word:p.id===cham.id?null:word})
-  state={kind:'chameleon',category,firstPlayer:first.id,privateById,log:[]};sendAllPrivate();actions['start-game'].send({game:selectedGame,state:publicState(state)});sync('Secretos repartidos. ¡Que empiece el chamuyo!')
-}
-
-// ---------- CALAVERAS ----------
-function renderSkull(){
-  const el=$('#game');let h=baseHeader('Calaveras','💀')
-  if(!state){h+=`<p>Cada uno tiene <b>3 flores y 1 calavera</b>. La app guarda qué pusiste; los demás sólo ven cuántas fichas hay.</p>${isHost?'<button id="startSkull">Preparar fichas</button>':'<p class="muted">Esperando al admin…</p>'}`}
-  else{
-    h+=`<div class="players">${state.players.map(p=>`<div class="player"><span>${esc(p.name)}</span><span>pila <b>${p.stackCount}</b> · ⭐ ${p.points} · fichas ${p.tokens}</span></div>`).join('')}</div>`
-    h+=`<div class="rule"></div><div class="center"><div class="muted">Turno</div><div class="bigTitle">${esc(playerName(state.turn))}</div>${state.phase==='bid'?`<div>Apuesta actual: <b>${state.bid||0}</b></div>`:''}</div>`
-    if(state.turn===selfId&&state.phase==='place'){
-      const mine=myPrivate||{};h+=`<p>Elegí una ficha para poner boca abajo:</p><div class="actions"><button id="flowerBtn" ${mine.flowers<=0?'disabled':''}>🌸 Flor (${mine.flowers??0})</button><button id="skullBtn" ${mine.skulls<=0?'disabled':''}>💀 Calavera (${mine.skulls??0})</button></div>${state.totalPlaced>=allPlayers().length?'<button id="beginBid" class="secondary" style="margin-top:10px">Empezar apuesta</button>':''}`
-    }else if(state.phase==='place')h+=`<p class="muted center">${state.totalPlaced?state.totalPlaced+' fichas en la mesa. ':''}Esperando una ficha…</p>`
-    if(state.phase==='bid'){
-      const max=state.totalPlaced;h+=`<p class="center">${esc(playerName(state.highBidder))} ofrece revelar <b>${state.bid}</b>.</p>`
-      if(state.turn===selfId){h+=`<div class="row"><button id="raiseBid" ${state.bid>=max?'disabled':''}>Subir a ${state.bid+1}</button><button id="passBid" class="secondary">Paso</button></div>`}
-    }
-    if(state.phase==='reveal'&&state.highBidder===selfId){h+=`<p><b>Ganaste la apuesta.</b> Revelá primero tu propia pila y después elegí rivales. La app conoce las fichas y te dirá qué aparece.</p><div class="actions">${state.players.filter(p=>p.id!==selfId&&p.stackCount>0).map(p=>`<button data-reveal="${p.id}" class="secondary">Revelar de ${esc(p.name)}</button>`).join('')}</div>`}
-    if(state.phase==='roundEnd'&&isHost)h+=`<button id="nextSkull">Siguiente ronda</button>`
-  }
-  el.innerHTML=h
-  if($('#startSkull'))$('#startSkull').onclick=startSkull;if($('#flowerBtn'))$('#flowerBtn').onclick=()=>intent('sk-place',{token:'flower'});if($('#skullBtn'))$('#skullBtn').onclick=()=>intent('sk-place',{token:'skull'});if($('#beginBid'))$('#beginBid').onclick=()=>intent('sk-begin-bid');if($('#raiseBid'))$('#raiseBid').onclick=()=>intent('sk-raise');if($('#passBid'))$('#passBid').onclick=()=>intent('sk-pass');document.querySelectorAll('[data-reveal]').forEach(b=>b.onclick=()=>intent('sk-reveal',{target:b.dataset.reveal}));if($('#nextSkull'))$('#nextSkull').onclick=()=>resetSkullRound()
-}
-function startSkull(){
-  if(!isHost)return;const ps=allPlayers();if(ps.length<3)return toast('Calaveras necesita al menos 3')
-  const privateById={};ps.forEach(p=>privateById[p.id]={flowers:3,skulls:1,stack:[]})
-  state={kind:'skull',players:ps.map(p=>({...p,stackCount:0,points:0,tokens:4,passed:false})),turn:ps[0].id,phase:'place',totalPlaced:0,bid:0,highBidder:null,privateById};sendAllPrivate();actions['start-game'].send({game:selectedGame,state:publicState(state)});sync('Fichas preparadas')
-}
-function resetSkullRound(){
-  const alive=state.players.filter(p=>p.tokens>0);for(const p of state.players){p.stackCount=0;p.passed=false;const priv=state.privateById[p.id];priv.stack=[];priv.flowers=Math.max(0,p.tokens-1);priv.skulls=p.tokens>0?1:0}state.phase='place';state.totalPlaced=0;state.bid=0;state.highBidder=null;state.turn=alive[0]?.id;sendAllPrivate();sync('Nueva ronda')
-}
-
-// ---------- PICANTE ----------
-function makeSpicyDeck(){let d=[];for(const suit of spicySuits)for(let n=1;n<=10;n++)d.push({id:crypto.randomUUID(),suit,n});return shuffle(d)}
-function renderSpicy(){
-  const el=$('#game');let h=baseHeader('Picante','🌶️')
-  if(!state){h+=`<p>Jugás una carta <b>boca abajo</b> y declarás un número + especia. Podés mentir. El resto puede desafiar número o especia.</p>${isHost?'<button id="startSpicy">Barajar y repartir</button>':'<p class="muted">Esperando al admin…</p>'}`}
-  else{
-    h+=`<div class="row"><div class="choice center">Mazo<br><span class="score">${state.deckCount}</span></div><div class="choice center">Pozo<br><span class="score">${state.pileCount}</span></div></div>`
-    if(state.lastClaim)h+=`<div class="secret"><div class="muted">Última declaración de ${esc(playerName(state.lastClaim.player))}</div><div class="big">${state.lastClaim.n} · ${esc(state.lastClaim.suit)}</div></div>`
-    h+=`<p class="center">Turno: <b>${esc(playerName(state.turn))}</b></p>`
-    const hand=myPrivate?.hand||[];h+=`<div class="rule"></div><div class="muted">Tu mano (${hand.length})</div><div class="hand">${hand.map(c=>`<div class="playing-card"><div class="badge">TU CARTA</div><div class="bigTitle">${c.n}<br>${esc(c.suit)}</div>${state.turn===selfId?`<button data-sp-card="${c.id}">Jugar boca abajo</button>`:''}</div>`).join('')}</div>`
-    if(state.pendingCard&&state.pendingCard.player!==selfId){h+=`<div class="rule"></div><p><b>${esc(playerName(state.pendingCard.player))}</b> jugó una carta boca abajo.</p><div class="actions"><button id="challengeNum" class="danger">Desafiar NÚMERO</button><button id="challengeSuit" class="danger">Desafiar ESPECIA</button><button id="acceptSp" class="secondary">Le creo</button></div>`}
-    if(state.turn===selfId&&state.awaitingClaim){h+=`<div class="rule"></div><b>Declaración pública</b><div class="row"><select id="claimNum">${Array.from({length:10},(_,i)=>`<option>${i+1}</option>`).join('')}</select><select id="claimSuit">${spicySuits.map(s=>`<option>${esc(s)}</option>`).join('')}</select><button id="declareSp">Declarar</button></div>`}
-    if(isHost)h+=`<div class="rule"></div><button id="newSpicy" class="secondary">Reiniciar partida</button>`
-  }
-  el.innerHTML=h
-  if($('#startSpicy'))$('#startSpicy').onclick=startSpicy;if($('#newSpicy'))$('#newSpicy').onclick=startSpicy;document.querySelectorAll('[data-sp-card]').forEach(b=>b.onclick=()=>intent('sp-select',{cardId:b.dataset.spCard}));if($('#declareSp'))$('#declareSp').onclick=()=>intent('sp-declare',{n:+$('#claimNum').value,suit:$('#claimSuit').value});if($('#challengeNum'))$('#challengeNum').onclick=()=>intent('sp-challenge',{field:'n'});if($('#challengeSuit'))$('#challengeSuit').onclick=()=>intent('sp-challenge',{field:'suit'});if($('#acceptSp'))$('#acceptSp').onclick=()=>intent('sp-accept')
-}
-function startSpicy(){
-  if(!isHost)return;const ps=allPlayers();if(ps.length<2)return toast('Faltan jugadores');let deck=makeSpicyDeck(),privateById={};for(const p of ps)privateById[p.id]={hand:deck.splice(0,6)}
-  state={kind:'spicy',turn:ps[0].id,players:ps,deck,pile:[],deckCount:deck.length,pileCount:0,lastClaim:null,pendingCard:null,awaitingClaim:false,privateById};sendAllPrivate();actions['start-game'].send({game:selectedGame,state:publicState(state)});sync('Cartas repartidas')
-}
-function nextPlayer(id,players=state.players){const i=players.findIndex(p=>p.id===id);return players[(i+1)%players.length].id}
-
-// ---------- GOLPE / COUP ----------
-function makeCoupDeck(){return shuffle(coupRoles.flatMap(role=>Array(3).fill(role)))}
-function renderCoup(){
-  const el=$('#game');let h=baseHeader('Golpe','👑')
-  if(!state){h+=`<p>Cada jugador recibe dos influencias ocultas y monedas. Las acciones y desafíos se hablan en la mesa; la app lleva cartas, monedas y pérdidas.</p>${isHost?'<button id="startCoup">Repartir influencias</button>':'<p class="muted">Esperando al admin…</p>'}`}
-  else{
-    h+=`<div class="players">${state.players.map(p=>`<div class="player"><span>${esc(p.name)}</span><span>🪙 ${p.coins} · ❤️ ${p.alive}</span></div>`).join('')}</div>`
-    h+=`<p class="center">Turno: <b>${esc(playerName(state.turn))}</b></p>`
-    const cards=myPrivate?.cards||[];h+=`<div class="hand">${cards.map((c,i)=>`<div class="playing-card" style="opacity:${c.alive?1:.35}"><div class="badge">INFLUENCIA ${i+1}</div><div class="bigTitle">${esc(c.role)}</div><div>${c.alive?'Oculta':'☠ Revelada'}</div></div>`).join('')}</div>`
-    const me=state.players.find(p=>p.id===selfId)
-    if(state.turn===selfId&&me?.alive>0&&!state.pending){h+=`<div class="rule"></div><div class="actions"><button data-coup="income">Ingreso +1</button><button data-coup="aid">Ayuda extranjera +2</button><button data-coup="tax">Duque: +3</button><button data-coup="steal">Capitán: robar 2</button><button data-coup="assassinate" ${me.coins<3?'disabled':''}>Asesino: pagar 3</button><button data-coup="coup" ${me.coins<7?'disabled':''}>Golpe: pagar 7</button></div>`}
-    if(state.pending){h+=`<div class="rule"></div><div class="secret"><div class="muted">Acción declarada</div><div class="bigTitle">${esc(playerName(state.pending.actor))}: ${esc(state.pending.label)}</div>${state.pending.target?`<div>Objetivo: ${esc(playerName(state.pending.target))}</div>`:''}</div>`;if(state.pending.actor!==selfId)h+=`<div class="actions"><button id="challengeC" class="danger">Desafiar</button><button id="acceptC" class="secondary">No desafío</button></div>`}
-    if(state.mustLose===selfId){h+=`<div class="rule"></div><p class="dangerText"><b>Tenés que perder una influencia.</b></p><div class="actions">${cards.map((c,i)=>c.alive?`<button data-lose="${i}" class="danger">Revelar ${esc(c.role)}</button>`:'').join('')}</div>`}
-    if(isHost)h+=`<div class="rule"></div><button id="newCoup" class="secondary">Reiniciar partida</button>`
-  }
-  el.innerHTML=h
-  if($('#startCoup'))$('#startCoup').onclick=startCoup;if($('#newCoup'))$('#newCoup').onclick=startCoup;document.querySelectorAll('[data-coup]').forEach(b=>b.onclick=()=>beginCoupAction(b.dataset.coup));if($('#challengeC'))$('#challengeC').onclick=()=>intent('c-challenge');if($('#acceptC'))$('#acceptC').onclick=()=>intent('c-accept');document.querySelectorAll('[data-lose]').forEach(b=>b.onclick=()=>intent('c-lose',{index:+b.dataset.lose}))
-}
-function startCoup(){
-  if(!isHost)return;const ps=allPlayers();if(ps.length<2)return toast('Faltan jugadores');let deck=makeCoupDeck(),privateById={};for(const p of ps)privateById[p.id]={cards:[{role:deck.pop(),alive:true},{role:deck.pop(),alive:true}]}
-  state={kind:'coup',players:ps.map(p=>({...p,coins:2,alive:2})),turn:ps[0].id,deck,privateById,pending:null,mustLose:null};sendAllPrivate();actions['start-game'].send({game:selectedGame,state:publicState(state)});sync('Influencias repartidas')
-}
-function livingTargets(){return state.players.filter(p=>p.alive>0&&p.id!==selfId)}
-function beginCoupAction(type){
-  if(state.turn!==selfId)return;const me=state.players.find(p=>p.id===selfId);let target=null,label=type
-  if(['steal','assassinate','coup'].includes(type)){const targets=state.players.filter(p=>p.alive>0&&p.id!==selfId);if(!targets.length)return;const names=targets.map((p,i)=>`${i+1}: ${p.name}`).join('\n');const n=prompt(`Elegí objetivo:\n${names}`);target=targets[(+n||1)-1]?.id;if(!target)return}
-  if(type==='income')label='Ingreso +1';if(type==='aid')label='Ayuda extranjera +2';if(type==='tax')label='Duque cobra +3';if(type==='steal')label='Capitán roba 2';if(type==='assassinate')label='Asesinato (-3 monedas)';if(type==='coup')label='Golpe (-7 monedas)'
-  intent('c-action',{action:type,target,label})
-}
-
-// ---------- INTENCIONES AL HOST ----------
-function handleIntent(peerId,m){
-  if(!state)return
-  if(m.type==='ch-guess'){actions.event.send({text:`El Camaleón intenta: “${m.guess}”`});return}
-  if(m.type==='sk-place'){
-    if(state.kind!=='skull'||state.turn!==peerId||state.phase!=='place')return;const priv=state.privateById[peerId];if(m.token==='flower'&&priv.flowers<=0)return;if(m.token==='skull'&&priv.skulls<=0)return;priv.stack.push(m.token);if(m.token==='flower')priv.flowers--;else priv.skulls--;const p=state.players.find(x=>x.id===peerId);p.stackCount++;state.totalPlaced++;state.turn=nextPlayer(peerId,state.players.filter(x=>x.tokens>0));sendPrivateTo(peerId);sync(`${playerName(peerId)} puso una ficha`);return
-  }
-  if(m.type==='sk-begin-bid'){
-    if(state.turn!==peerId||state.phase!=='place')return;state.phase='bid';state.bid=1;state.highBidder=peerId;state.players.forEach(p=>p.passed=false);state.turn=nextPlayer(peerId,state.players.filter(x=>x.tokens>0));sync(`${playerName(peerId)} abrió la apuesta en 1`);return
-  }
-  if(m.type==='sk-raise'){
-    if(state.phase!=='bid'||state.turn!==peerId||state.bid>=state.totalPlaced)return;state.bid++;state.highBidder=peerId;let candidates=state.players.filter(p=>p.tokens>0&&!p.passed&&p.id!==peerId);state.turn=candidates.length?nextEligible(peerId,candidates):peerId;sync(`${playerName(peerId)} sube a ${state.bid}`);checkSkBidEnd();return
-  }
-  if(m.type==='sk-pass'){
-    if(state.phase!=='bid'||state.turn!==peerId)return;state.players.find(p=>p.id===peerId).passed=true;let active=state.players.filter(p=>p.tokens>0&&!p.passed);if(active.length<=1){state.highBidder=active[0]?.id||state.highBidder;state.phase='reveal';state.turn=state.highBidder;sync(`${playerName(state.highBidder)} gana la apuesta`)}else{state.turn=nextEligible(peerId,active);sync(`${playerName(peerId)} pasa`)}return
-  }
-  if(m.type==='sk-reveal'){
-    if(state.phase!=='reveal'||state.highBidder!==peerId)return;revealSkullTarget(peerId,m.target);return
-  }
-  if(m.type==='sp-select'){
-    if(state.kind!=='spicy'||state.turn!==peerId||state.pendingCard)return;const priv=state.privateById[peerId],i=priv.hand.findIndex(c=>c.id===m.cardId);if(i<0)return;state.pendingCard={player:peerId,card:priv.hand.splice(i,1)[0]};state.awaitingClaim=true;sendPrivateTo(peerId);sync(`${playerName(peerId)} eligió una carta`);return
-  }
-  if(m.type==='sp-declare'){
-    if(!state.awaitingClaim||state.turn!==peerId||state.pendingCard?.player!==peerId)return;state.awaitingClaim=false;state.lastClaim={player:peerId,n:m.n,suit:m.suit};sync(`${playerName(peerId)} declara ${m.n} · ${m.suit}`);return
-  }
-  if(m.type==='sp-accept'){
-    if(!state.pendingCard||state.pendingCard.player===peerId)return;acceptSpicy();return
-  }
-  if(m.type==='sp-challenge'){
-    if(!state.pendingCard||state.pendingCard.player===peerId)return;const card=state.pendingCard.card,claim=state.lastClaim;const liar=m.field==='n'?card.n!==claim.n:card.suit!==claim.suit;const loser=liar?state.pendingCard.player:peerId;const winner=liar?peerId:state.pendingCard.player;state.pile.push(card);state.pileCount=state.pile.length;state.pendingCard=null;state.lastClaim=null;state.turn=winner;drawSpicyPenalty(loser,2);sync(`${playerName(winner)} gana el desafío. ${playerName(loser)} roba 2.`);return
-  }
-  if(m.type==='c-action'){
-    if(state.kind!=='coup'||state.turn!==peerId||state.pending)return;const p=state.players.find(x=>x.id===peerId);if(m.action==='coup'&&p.coins<7)return;if(m.action==='assassinate'&&p.coins<3)return;if(p.coins>=10&&m.action!=='coup')return toast('Con 10+ monedas, el golpe es obligatorio');
-    if(m.action==='income'){p.coins++;endCoupTurn(peerId,'Ingreso cobrado');return}
-    if(m.action==='coup'){p.coins-=7;state.mustLose=m.target;sync(`${playerName(peerId)} da un golpe a ${playerName(m.target)}`);return}
-    state.pending={actor:peerId,action:m.action,target:m.target,label:m.label,accepted:[]};sync(`${playerName(peerId)} declara: ${m.label}`);return
-  }
-  if(m.type==='c-accept'){
-    if(!state.pending||state.pending.actor===peerId)return;if(!state.pending.accepted.includes(peerId))state.pending.accepted.push(peerId);const eligible=state.players.filter(p=>p.alive>0&&p.id!==state.pending.actor);if(state.pending.accepted.length>=eligible.length)resolveCoupAction();else sync(`${playerName(peerId)} no desafía`);return
-  }
-  if(m.type==='c-challenge'){
-    if(!state.pending||state.pending.actor===peerId)return;const roleNeeded={tax:'Duque',steal:'Capitán',assassinate:'Asesino',aid:null}[state.pending.action];if(!roleNeeded){state.pending.accepted.push(peerId);sync('Esa acción no se desafía por rol en esta versión');return}
-    const actorPriv=state.privateById[state.pending.actor];const has=actorPriv.cards.some(c=>c.alive&&c.role===roleNeeded);if(has){state.mustLose=peerId;actions.event.send({text:`Desafío fallido: ${playerName(state.pending.actor)} sí tenía ${roleNeeded}.`});}else{state.mustLose=state.pending.actor;actions.event.send({text:`¡Desafío exitoso! ${playerName(state.pending.actor)} no tenía ${roleNeeded}.`});state.pending.cancelled=true}sync();return
-  }
-  if(m.type==='c-lose'){
-    if(state.mustLose!==peerId)return;const priv=state.privateById[peerId],card=priv.cards[m.index];if(!card?.alive)return;card.alive=false;const p=state.players.find(x=>x.id===peerId);p.alive--;state.mustLose=null;sendPrivateTo(peerId);const cancelled=state.pending?.cancelled;if(state.pending&&cancelled){const actor=state.pending.actor;state.pending=null;endCoupTurn(actor,`${playerName(peerId)} perdió ${card.role}`)}else if(state.pending){resolveCoupAction()}else{const actor=state.turn;endCoupTurn(actor,`${playerName(peerId)} perdió ${card.role}`)}return
-  }
-}
-function nextEligible(id,candidates){const order=state.players;let i=order.findIndex(p=>p.id===id);for(let k=1;k<=order.length;k++){const x=order[(i+k)%order.length];if(candidates.some(c=>c.id===x.id))return x.id}return id}
-function checkSkBidEnd(){if(state.bid>=state.totalPlaced){state.phase='reveal';state.turn=state.highBidder;sync(`${playerName(state.highBidder)} debe revelar ${state.bid}`)}}
-function revealSkullTarget(bidder,target){
-  const needed=state.bid;let revealed=0;const own=state.privateById[bidder].stack;for(const t of own){revealed++;if(t==='skull')return skullFail(bidder,bidder)}
-  const other=state.privateById[target]?.stack||[];for(let i=other.length-1;i>=0&&revealed<needed;i--){revealed++;if(other[i]==='skull')return skullFail(bidder,target)}
-  if(revealed>=needed){const p=state.players.find(x=>x.id===bidder);p.points++;state.phase='roundEnd';sync(`${playerName(bidder)} supera la apuesta y gana un punto ⭐`);if(p.points>=2)actions.event.send({text:`🏆 ${playerName(bidder)} gana Calaveras con 2 puntos`})}else toast('Todavía faltan fichas por revelar')
-}
-function skullFail(bidder,owner){const p=state.players.find(x=>x.id===bidder);p.tokens=Math.max(0,p.tokens-1);state.phase='roundEnd';sync(`💀 ¡Calavera! ${playerName(bidder)} pierde una ficha${owner!==bidder?' al revelar a '+playerName(owner):''}.`)}
-function acceptSpicy(){const card=state.pendingCard.card;state.pile.push(card);state.pileCount=state.pile.length;const prev=state.pendingCard.player;state.pendingCard=null;state.lastClaim=null;state.turn=nextPlayer(prev);state.deckCount=state.deck.length;sync('La declaración fue aceptada')}
-function drawSpicyPenalty(id,n){const priv=state.privateById[id];for(let i=0;i<n;i++){if(!state.deck.length&&state.pile.length){state.deck=shuffle(state.pile.splice(0));state.pileCount=0}const c=state.deck.pop();if(c)priv.hand.push(c)}state.deckCount=state.deck.length;sendPrivateTo(id)}
-function resolveCoupAction(){const a=state.pending;if(!a)return;const actor=state.players.find(p=>p.id===a.actor),target=state.players.find(p=>p.id===a.target);if(a.action==='aid')actor.coins+=2;if(a.action==='tax')actor.coins+=3;if(a.action==='steal'&&target){const n=Math.min(2,target.coins);target.coins-=n;actor.coins+=n}if(a.action==='assassinate'&&target){actor.coins-=3;state.mustLose=target.id;sync(`${playerName(target.id)} debe perder una influencia`);return}state.pending=null;endCoupTurn(actor.id,'Acción resuelta')}
-function endCoupTurn(actorId,msg){state.pending=null;const living=state.players.filter(p=>p.alive>0);if(living.length===1){state.turn=living[0].id;sync(`🏆 ${living[0].name} gana Golpe`);return}state.turn=nextEligible(actorId,living);sync(msg)}
-
-window.addEventListener('beforeunload',()=>room?.leave())
+function renderAll(){const ps=allPlayers();$('#players').innerHTML=ps.map(p=>`<div class="player"><span>${esc(p.name)}${p.id===selfId?' <span class="muted">(vos)</span>':''}</span><span>${p.id===hostId?'👑 admin':'●'}</span></div>`).join('');$('#rolePill').textContent=isHost?'👑 Admin':'🎲 Jugador';$('#selector').classList.toggle('hidden',!!selectedGame||!isHost);$('#waiting').classList.toggle('hidden',!!selectedGame||isHost);$('#game').classList.toggle('hidden',!selectedGame);document.querySelectorAll('[data-game]').forEach(b=>b.onclick=()=>chooseGame(b.dataset.game));renderGame()}
+function chooseGame(g){if(!isHost)return;selectedGame=g;state=null;myPrivate=null;actions.choose.send({game:g});actions.snapshot.send(snapshot());renderAll()}
+function snapshot(){return {version:VERSION,game:selectedGame,state:state?{started:state.started,round:state.round}:null}}
+function sendPrivate(id){if(state?.privateById?.[id])actions.private.send(state.privateById[id],{target:id})}
+function sendAllPrivate(){for(const [id,d] of Object.entries(state.privateById)){if(id===selfId)myPrivate=d;else actions.private.send(d,{target:id})}}
+function startRound(){if(!isHost)return;const ps=allPlayers();if(ps.length<3)return toast('Se necesitan al menos 3 jugadores');const privateById={}
+ if(selectedGame==='chameleon'){const cat=rand(Object.keys(chameleonWords)),word=rand(chameleonWords[cat]),spy=rand(ps).id;for(const p of ps)privateById[p.id]=p.id===spy?{game:'chameleon',spy:true,category:cat}:{game:'chameleon',spy:false,category:cat,word}}
+ if(selectedGame==='spyfall'){const location=rand(Object.keys(spyLocations)),spy=rand(ps).id,roles=shuffle(spyLocations[location]);for(let i=0;i<ps.length;i++){const p=ps[i];privateById[p.id]=p.id===spy?{game:'spyfall',spy:true}:{game:'spyfall',spy:false,location,role:roles[i%roles.length]}}}
+ if(selectedGame==='coup'){let deck=shuffle(coupRoles);for(const p of ps)privateById[p.id]={game:'coup',roles:[deck.pop(),deck.pop()]}}
+ state={started:true,round:(state?.round||0)+1,privateById};sendAllPrivate();actions.snapshot.send(snapshot());renderAll();toast('Cartas repartidas')}
+function back(){if(!isHost)return;selectedGame=null;state=null;myPrivate=null;actions.choose.send({game:null});actions.snapshot.send(snapshot());renderAll()}
+function secretBox(inner){return `<div id="secretBox" class="secret secretHidden"><div class="secretContent">${inner}</div></div><button id="holdBtn" class="hold secondary">👁️ Mantené apretado para ver</button>`}
+function wireSecret(){const b=$('#secretBox'),h=$('#holdBtn');if(!b||!h)return;const show=e=>{e.preventDefault();b.classList.remove('secretHidden')},hide=e=>{e.preventDefault();b.classList.add('secretHidden')};['pointerdown','touchstart'].forEach(x=>h.addEventListener(x,show,{passive:false}));['pointerup','pointercancel','pointerleave','touchend'].forEach(x=>h.addEventListener(x,hide,{passive:false}))}
+function adminButtons(){return isHost?`<div class="adminActions"><button id="again">🔄 ${state?'Jugar de nuevo':'Repartir cartas'}</button><button id="back" class="secondary">← Elegir otro juego</button></div>`:''}
+function renderGame(){if(!selectedGame)return;const g=$('#game');let html=`<div class="bigTitle">${esc(gameNames[selectedGame])}</div>`
+ if(!state){html+=`<p class="muted">Esperando que el admin reparta.</p>${adminButtons()}`}
+ else if(selectedGame==='chameleon'){html+= myPrivate?secretBox(myPrivate.spy?`<div class="emoji">🦎</div><div class="big">SOS EL CAMALEÓN</div><p>Categoría: <b>${esc(myPrivate.category)}</b></p>`:`<div class="muted">Categoría</div><div class="medium">${esc(myPrivate.category)}</div><div class="rule"></div><div class="muted">Palabra</div><div class="big">${esc(myPrivate.word)}</div>`):'<p>Recibiendo tu carta…</p>';html+=`<div class="how"><b>Después guardá el celular.</b><br>Cada uno da una pista hablando. Se acusan señalándose con el dedo. Si descubren al Camaleón, él intenta adivinar la palabra en voz alta.</div>${adminButtons()}`}
+ else if(selectedGame==='spyfall'){html+=myPrivate?secretBox(myPrivate.spy?`<div class="emoji">🕵️</div><div class="big">SOS EL ESPÍA</div><p>No sabés dónde están. Descubrilo preguntando y respondiendo sin levantar sospechas.</p>`:`<div class="muted">Lugar</div><div class="big">${esc(myPrivate.location)}</div><div class="rule"></div><div class="muted">Tu rol</div><div class="medium">${esc(myPrivate.role)}</div>`):'<p>Recibiendo tu carta…</p>';html+=`<div class="how"><b>Después guardá el celular.</b><br>Se hacen preguntas entre ustedes sobre el lugar, sin nombrarlo directamente. El espía intenta deducir dónde están; los demás intentan encontrar al espía.</div>${adminButtons()}`}
+ else if(selectedGame==='coup'){html+=myPrivate?secretBox(`<div class="muted">Tus dos influencias</div><div class="big">${esc(myPrivate.roles[0])}</div><div class="medium">+ ${esc(myPrivate.roles[1])}</div>`):'<p>Recibiendo tus roles…</p>';html+=`<div class="how"><b>Después guardá el celular.</b><br>Usen monedas/fichas físicas. Todas las acciones, mentiras, bloqueos y desafíos se dicen en voz alta. Si perdés una influencia, recordá entre ustedes cuál quedó fuera; el celular no arbitra nada.</div>${adminButtons()}`}
+ g.innerHTML=html;wireSecret();const a=$('#again'),b=$('#back');if(a)a.onclick=startRound;if(b)b.onclick=back}
 </script>
-</body>
-</html>
+</body></html>
