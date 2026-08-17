@@ -6,37 +6,54 @@ Auxiliar web P2P para jugar juegos sociales alrededor de una mesa usando celular
 
 - Una única mesa, sin códigos de sala.
 - El primer dispositivo que entra queda como admin.
-- El admin elige el juego y reparte.
+- El admin elige el juego e inicia la partida.
 - Trystero/WebRTC conecta los celulares directamente.
-- Cada teléfono recibe sólo la información secreta que necesita mostrar.
-- Después de mirar la carta, el celular vuelve a la mesa o al bolsillo.
-- Conversación, acusaciones, votaciones, mentiras, desafíos y puntuación se resuelven socialmente o con componentes físicos.
-- Si algo se puede hacer mejor con cartas, dados, fichas o tablero, no se digitaliza.
+- Cada teléfono recibe sólo la información secreta que necesita.
+- **El celu reparte. La mesa juega.**
+- Conversación, acusaciones, bluff, monedas y gestos se manejan cara a cara.
 
-## Juegos incluidos en v0.2
+## v0.3.0 — afinada para 3 jugadores
 
-- 🦎 Camaleón: reparte categoría + palabra a todos menos al Camaleón. No hay votación digital.
-- 🕵️ Spyfall: reparte lugar + rol a todos menos al Espía. Preguntas y acusaciones son completamente sociales.
-- 👑 Golpe: el teléfono sólo reparte dos influencias secretas. Monedas, acciones, bloqueos y desafíos se llevan físicamente/socialmente.
+### 🦎 Camaleón
+- 12 categorías y 180 palabras aproximadamente.
+- Una persona recibe Camaleón; las otras dos reciben la misma palabra.
+- Categoría visible también para el Camaleón.
+- Jugador inicial aleatorio.
+- No repite combinaciones durante la sesión hasta agotar el banco.
+- Sin votación digital.
+- Botón **Jugar de nuevo** para el admin.
 
-Picante se quitó de la app porque se puede jugar directamente con un mazo físico y el teléfono no aporta suficiente valor.
+### 🕵️ Spyfall
+- 37 lugares con varios roles por lugar.
+- Dos jugadores conocen el lugar; uno es el espía.
+- Roles distintos para los jugadores normales.
+- Jugador inicial aleatorio.
+- No repite lugares durante la sesión hasta agotar el banco.
+- Banco opcional de preguntas para cuando alguien se queda trabado.
+- Acusaciones y resolución completamente habladas.
 
-## Flujo
+### 👑 Golpe
+- Mazo digital completo de 15 influencias: 3 de cada personaje.
+- Dos cartas secretas por jugador.
+- Monedas físicas: cada persona empieza con 2.
+- Referencia corta de acciones y bloqueos en pantalla.
+- La partida se juega hablando y moviendo monedas.
+- El celular sólo interviene cuando cambia una carta:
+  - **Revelé/perdí** marca una influencia muerta.
+  - **La probé** devuelve una influencia demostrada al mazo, mezcla y roba reemplazo.
+  - **Embajador** roba dos cartas y permite elegir cuáles conservar.
+- Botón **Jugar de nuevo** para repartir una partida totalmente nueva.
 
-1. Todos abren la misma URL y ponen su nombre.
-2. El primer dispositivo queda como admin.
-3. El admin elige un juego.
-4. El admin toca `Repartir cartas`.
-5. Cada jugador mantiene pulsado el botón de ojo para mirar su información secreta.
-6. Guardan el celular y juegan alrededor de la mesa.
-7. El admin puede tocar `Jugar de nuevo` para repartir una ronda nueva sin volver al selector.
+## Seguridad de secretos
+
+Las cartas permanecen borrosas. Para verlas hay que mantener apretado **👁️ Mantené apretado para ver**, de modo que el teléfono pueda quedar apoyado sobre la mesa sin mostrar información accidentalmente.
 
 ## Ejecución
 
-Es una web estática. `index.html` importa Trystero desde CDN, por lo que se puede alojar directamente con GitHub Pages.
+Web estática apta para GitHub Pages. `index.html` carga `app.js` y `styles.css`; Trystero se importa desde CDN.
 
-Los jugadores deben abrir la misma URL. No se usa código de sala: internamente todos entran a `mesa-unica` dentro del `appId` de Noche de Juegos.
+Todos abren la misma URL y entran automáticamente a una única mesa fija. El dispositivo admin conserva el estado autoritativo y envía la información privada únicamente al peer correspondiente.
 
-## Privacidad de juego
+## Reglas
 
-El dispositivo admin genera el reparto y envía a cada peer únicamente su información privada. El estado público no contiene los secretos de los jugadores.
+Ver [`REGLAS.md`](./REGLAS.md) para las reglas de mesa resumidas y adaptadas a tres jugadores.
