@@ -1,94 +1,46 @@
 <!doctype html>
 <html lang="es">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#10111a">
-<title>Noche de Juegos</title>
-<style>
-:root{--bg:#10111a;--panel:#191b28;--panel2:#23263a;--txt:#f8f5ec;--muted:#aeb2c8;--accent:#ffd166;--line:#34384f;--ok:#73d2a5}
-*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(circle at 20% 0,#28263f 0,var(--bg) 48%);color:var(--txt);font-family:system-ui,-apple-system,Segoe UI,sans-serif}
-button,input{font:inherit}button{border:0;border-radius:15px;padding:14px 17px;background:var(--accent);color:#171717;font-weight:850;cursor:pointer}button.secondary{background:var(--panel2);color:var(--txt);border:1px solid var(--line)}
-.app{max-width:760px;margin:auto;padding:18px 14px 80px}.top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}.brand{font-size:clamp(27px,7vw,42px);font-weight:950;letter-spacing:-1.4px}.version{font-size:12px;color:var(--muted)}
-.card{margin-top:16px;padding:18px;background:rgba(25,27,40,.96);border:1px solid var(--line);border-radius:23px;box-shadow:0 18px 50px #0004}.muted{color:var(--muted)}.bigTitle{font-size:25px;font-weight:900}.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.row>*{flex:1}.hidden{display:none!important}
-input{width:100%;padding:14px;border-radius:13px;border:1px solid var(--line);background:#0d0f18;color:var(--txt)}.players{display:grid;gap:8px}.player{display:flex;justify-content:space-between;padding:11px 12px;background:#10121b;border:1px solid var(--line);border-radius:13px}
-.games{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.game{min-height:140px;text-align:left;background:var(--panel2);color:var(--txt);border:1px solid var(--line);display:flex;flex-direction:column;justify-content:space-between}.game b{font-size:19px}.emoji{font-size:36px}.center{text-align:center}
-.secret{margin-top:14px;padding:26px 18px;border:1px dashed #ffffff50;border-radius:21px;text-align:center;background:linear-gradient(145deg,#20243a,#171927)}.secret .big{font-size:clamp(31px,10vw,58px);font-weight:950;line-height:1.05}.secret .medium{font-size:clamp(21px,6vw,34px);font-weight:850}.secretHidden .secretContent{filter:blur(18px);user-select:none}.hold{width:100%;margin-top:14px;background:#34384f;color:white}.adminActions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}.pill{display:inline-flex;gap:7px;align-items:center;border:1px solid var(--line);border-radius:999px;padding:7px 10px;background:#11131d}.dot{width:9px;height:9px;border-radius:50%;background:var(--muted)}.dot.on{background:var(--ok);box-shadow:0 0 11px var(--ok)}.rule{border-top:1px solid var(--line);margin:14px 0}.toast{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);background:#080910;border:1px solid var(--line);border-radius:999px;padding:10px 15px;max-width:90vw;z-index:20}.how{padding:12px 14px;background:#10121b;border-radius:14px;color:#d6d8e6;line-height:1.45}
-@media(max-width:600px){.games{grid-template-columns:1fr}.row.mobile{display:grid}.adminActions{grid-template-columns:1fr}}
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#10111a">
+  <title>Noche de Juegos</title>
+  <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
 <div class="app">
- <div class="top"><div><div class="brand">🎲 Noche de Juegos</div><div class="muted">El celu reparte. La mesa juega.</div></div><div class="version">v0.2.0</div></div>
- <section id="identity" class="card"><div class="bigTitle">¿Quién sos?</div><p class="muted">El nombre queda guardado en este dispositivo.</p><div class="row mobile"><input id="nameInput" maxlength="20" placeholder="Nombre"><button id="enterBtn">Entrar</button></div></section>
- <main id="main" class="hidden">
-  <section class="card"><div class="row"><div class="pill"><span id="netDot" class="dot"></span><span id="netText">Conectando…</span></div><div id="rolePill" class="pill">Jugador</div></div><div class="rule"></div><div id="players" class="players"></div></section>
-  <section id="selector" class="card hidden"><div class="bigTitle">Elegí el juego</div><p class="muted">El teléfono sólo maneja la información secreta.</p><div class="games">
-   <button class="game" data-game="chameleon"><span class="emoji">🦎</span><span><b>Camaleón</b><br><span class="muted">Una palabra y un infiltrado.</span></span></button>
-   <button class="game" data-game="spyfall"><span class="emoji">🕵️</span><span><b>Spyfall</b><br><span class="muted">Todos conocen el lugar menos el espía.</span></span></button>
-   <button class="game" data-game="coup"><span class="emoji">👑</span><span><b>Golpe</b><br><span class="muted">El celu sólo reparte los roles.</span></span></button>
-  </div></section>
-  <section id="waiting" class="card hidden center"><div class="emoji">🪑</div><div class="bigTitle">Esperando al admin</div><p class="muted">Cuando elija un juego entran todos automáticamente.</p></section>
-  <section id="game" class="card hidden"></section>
- </main>
-</div><div id="toast" class="toast hidden"></div>
-<script type="module">
-import {joinRoom,selfId} from 'https://esm.run/trystero'
-const APP_ID='noche-de-juegos-mateofoulkes-lab-v2', ROOM_ID='mesa-unica', VERSION='0.2.0'
-const $=s=>document.querySelector(s), esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]))
-const shuffle=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}, rand=a=>a[Math.floor(Math.random()*a.length)]
-const toast=m=>{const t=$('#toast');t.textContent=m;t.classList.remove('hidden');clearTimeout(toast.t);toast.t=setTimeout(()=>t.classList.add('hidden'),2200)}
-let myName=localStorage.getItem('ndj-name')||'', room, actions={}, peers={}, isHost=false,hostId=null,hostSeen=false,claimTimer=null,selectedGame=null,state=null,myPrivate=null
-const gameNames={chameleon:'Camaleón',spyfall:'Spyfall',coup:'Golpe'}
-const chameleonWords={Animales:['Pingüino','Jirafa','Elefante','Tiburón','Conejo','Pulpo','Cocodrilo','Panda'],Comidas:['Pizza','Empanada','Sushi','Hamburguesa','Taco','Milanesa','Helado','Ravioles'],Lugares:['Playa','Hospital','Aeropuerto','Museo','Cementerio','Supermercado','Teatro','Camping'],Objetos:['Paraguas','Martillo','Cepillo','Tijera','Almohada','Valija','Linterna','Escoba'],Personajes:['Batman','Shrek','Drácula','Superman','Barbie','Pinocho','Tarzán','Godzilla']}
-const spyLocations={
- 'Aeropuerto':['Piloto','Azafata','Pasajero','Seguridad','Mecánico'],
- 'Hospital':['Médico','Enfermero','Paciente','Cirujano','Visitante'],
- 'Restaurante':['Chef','Mozo','Cliente','Encargado','Lavaplatos'],
- 'Playa':['Guardavidas','Turista','Vendedor','Surfista','Pescador'],
- 'Teatro':['Actor','Director','Espectador','Iluminador','Acomodador'],
- 'Escuela':['Docente','Alumno','Director','Preceptor','Portero'],
- 'Supermercado':['Cajero','Cliente','Repositor','Gerente','Seguridad'],
- 'Hotel':['Recepcionista','Huésped','Botones','Gerente','Mucama'],
- 'Estadio':['Jugador','Árbitro','Hincha','Periodista','Seguridad'],
- 'Museo':['Guía','Turista','Curador','Guardia','Restaurador'],
- 'Camping':['Campista','Guardaparque','Excursionista','Cocinero','Guía'],
- 'Banco':['Cajero','Cliente','Gerente','Seguridad','Contador']
-}
-const coupRoles=['Duque','Duque','Duque','Asesino','Asesino','Asesino','Capitán','Capitán','Capitán','Embajador','Embajador','Embajador','Condesa','Condesa','Condesa']
-if(myName)$('#nameInput').value=myName
-$('#enterBtn').onclick=()=>{const n=$('#nameInput').value.trim();if(!n)return toast('Poné un nombre');myName=n;localStorage.setItem('ndj-name',n);start()}
-function start(){ $('#identity').classList.add('hidden');$('#main').classList.remove('hidden');room=joinRoom({appId:APP_ID},ROOM_ID);setupActions();room.onPeerJoin=id=>{peers[id]={id,name:'Conectando…'};renderAll();actions.hello.send({name:myName,host:isHost,game:selectedGame},{target:id});if(isHost){actions.snapshot.send(snapshot(),{target:id});sendPrivate(id)}};room.onPeerLeave=id=>{delete peers[id];if(id===hostId){hostId=null;hostSeen=false;isHost=false;scheduleClaim()}renderAll()};$('#netDot').classList.add('on');$('#netText').textContent='Mesa P2P activa';scheduleClaim();renderAll()}
-function setupActions(){for(const n of ['hello','host','snapshot','choose','private'])actions[n]=room.makeAction(n)
- actions.hello.onMessage=(d,{peerId})=>{peers[peerId]={id:peerId,name:d.name||'Jugador'};if(d.host)adoptHost(peerId);if(d.game&&!selectedGame)selectedGame=d.game;if(isHost){actions.hello.send({name:myName,host:true,game:selectedGame},{target:peerId});actions.snapshot.send(snapshot(),{target:peerId});sendPrivate(peerId)}renderAll()}
- actions.host.onMessage=(_d,{peerId})=>{if(isHost){actions.hello.send({name:myName,host:true,game:selectedGame},{target:peerId});return}adoptHost(peerId);renderAll()}
- actions.snapshot.onMessage=(d,{peerId})=>{if(hostId&&peerId!==hostId)return;adoptHost(peerId);selectedGame=d.game||null;state=d.state||null;if(!state)myPrivate=null;renderAll()}
- actions.choose.onMessage=(d,{peerId})=>{if(peerId!==hostId)return;selectedGame=d.game||null;state=null;myPrivate=null;renderAll()}
- actions.private.onMessage=(d,{peerId})=>{if(hostId&&peerId!==hostId)return;myPrivate=d;renderGame()}
-}
-function scheduleClaim(){clearTimeout(claimTimer);claimTimer=setTimeout(()=>{if(!hostSeen&&!hostId)becomeHost()},800)}
-function becomeHost(){isHost=true;hostId=selfId;hostSeen=true;actions.host.send({});actions.hello.send({name:myName,host:true,game:selectedGame});toast('Sos el admin');renderAll()}
-function adoptHost(id){if(isHost&&id!==selfId)return;hostId=id;hostSeen=true;isHost=id===selfId;clearTimeout(claimTimer)}
-function allPlayers(){return [{id:selfId,name:myName},...Object.values(peers)].filter((p,i,a)=>a.findIndex(x=>x.id===p.id)===i)}
-function renderAll(){const ps=allPlayers();$('#players').innerHTML=ps.map(p=>`<div class="player"><span>${esc(p.name)}${p.id===selfId?' <span class="muted">(vos)</span>':''}</span><span>${p.id===hostId?'👑 admin':'●'}</span></div>`).join('');$('#rolePill').textContent=isHost?'👑 Admin':'🎲 Jugador';$('#selector').classList.toggle('hidden',!!selectedGame||!isHost);$('#waiting').classList.toggle('hidden',!!selectedGame||isHost);$('#game').classList.toggle('hidden',!selectedGame);document.querySelectorAll('[data-game]').forEach(b=>b.onclick=()=>chooseGame(b.dataset.game));renderGame()}
-function chooseGame(g){if(!isHost)return;selectedGame=g;state=null;myPrivate=null;actions.choose.send({game:g});actions.snapshot.send(snapshot());renderAll()}
-function snapshot(){return {version:VERSION,game:selectedGame,state:state?{started:state.started,round:state.round}:null}}
-function sendPrivate(id){if(state?.privateById?.[id])actions.private.send(state.privateById[id],{target:id})}
-function sendAllPrivate(){for(const [id,d] of Object.entries(state.privateById)){if(id===selfId)myPrivate=d;else actions.private.send(d,{target:id})}}
-function startRound(){if(!isHost)return;const ps=allPlayers();if(ps.length<3)return toast('Se necesitan al menos 3 jugadores');const privateById={}
- if(selectedGame==='chameleon'){const cat=rand(Object.keys(chameleonWords)),word=rand(chameleonWords[cat]),spy=rand(ps).id;for(const p of ps)privateById[p.id]=p.id===spy?{game:'chameleon',spy:true,category:cat}:{game:'chameleon',spy:false,category:cat,word}}
- if(selectedGame==='spyfall'){const location=rand(Object.keys(spyLocations)),spy=rand(ps).id,roles=shuffle(spyLocations[location]);for(let i=0;i<ps.length;i++){const p=ps[i];privateById[p.id]=p.id===spy?{game:'spyfall',spy:true}:{game:'spyfall',spy:false,location,role:roles[i%roles.length]}}}
- if(selectedGame==='coup'){let deck=shuffle(coupRoles);for(const p of ps)privateById[p.id]={game:'coup',roles:[deck.pop(),deck.pop()]}}
- state={started:true,round:(state?.round||0)+1,privateById};sendAllPrivate();actions.snapshot.send(snapshot());renderAll();toast('Cartas repartidas')}
-function back(){if(!isHost)return;selectedGame=null;state=null;myPrivate=null;actions.choose.send({game:null});actions.snapshot.send(snapshot());renderAll()}
-function secretBox(inner){return `<div id="secretBox" class="secret secretHidden"><div class="secretContent">${inner}</div></div><button id="holdBtn" class="hold secondary">👁️ Mantené apretado para ver</button>`}
-function wireSecret(){const b=$('#secretBox'),h=$('#holdBtn');if(!b||!h)return;const show=e=>{e.preventDefault();b.classList.remove('secretHidden')},hide=e=>{e.preventDefault();b.classList.add('secretHidden')};['pointerdown','touchstart'].forEach(x=>h.addEventListener(x,show,{passive:false}));['pointerup','pointercancel','pointerleave','touchend'].forEach(x=>h.addEventListener(x,hide,{passive:false}))}
-function adminButtons(){return isHost?`<div class="adminActions"><button id="again">🔄 ${state?'Jugar de nuevo':'Repartir cartas'}</button><button id="back" class="secondary">← Elegir otro juego</button></div>`:''}
-function renderGame(){if(!selectedGame)return;const g=$('#game');let html=`<div class="bigTitle">${esc(gameNames[selectedGame])}</div>`
- if(!state){html+=`<p class="muted">Esperando que el admin reparta.</p>${adminButtons()}`}
- else if(selectedGame==='chameleon'){html+= myPrivate?secretBox(myPrivate.spy?`<div class="emoji">🦎</div><div class="big">SOS EL CAMALEÓN</div><p>Categoría: <b>${esc(myPrivate.category)}</b></p>`:`<div class="muted">Categoría</div><div class="medium">${esc(myPrivate.category)}</div><div class="rule"></div><div class="muted">Palabra</div><div class="big">${esc(myPrivate.word)}</div>`):'<p>Recibiendo tu carta…</p>';html+=`<div class="how"><b>Después guardá el celular.</b><br>Cada uno da una pista hablando. Se acusan señalándose con el dedo. Si descubren al Camaleón, él intenta adivinar la palabra en voz alta.</div>${adminButtons()}`}
- else if(selectedGame==='spyfall'){html+=myPrivate?secretBox(myPrivate.spy?`<div class="emoji">🕵️</div><div class="big">SOS EL ESPÍA</div><p>No sabés dónde están. Descubrilo preguntando y respondiendo sin levantar sospechas.</p>`:`<div class="muted">Lugar</div><div class="big">${esc(myPrivate.location)}</div><div class="rule"></div><div class="muted">Tu rol</div><div class="medium">${esc(myPrivate.role)}</div>`):'<p>Recibiendo tu carta…</p>';html+=`<div class="how"><b>Después guardá el celular.</b><br>Se hacen preguntas entre ustedes sobre el lugar, sin nombrarlo directamente. El espía intenta deducir dónde están; los demás intentan encontrar al espía.</div>${adminButtons()}`}
- else if(selectedGame==='coup'){html+=myPrivate?secretBox(`<div class="muted">Tus dos influencias</div><div class="big">${esc(myPrivate.roles[0])}</div><div class="medium">+ ${esc(myPrivate.roles[1])}</div>`):'<p>Recibiendo tus roles…</p>';html+=`<div class="how"><b>Después guardá el celular.</b><br>Usen monedas/fichas físicas. Todas las acciones, mentiras, bloqueos y desafíos se dicen en voz alta. Si perdés una influencia, recordá entre ustedes cuál quedó fuera; el celular no arbitra nada.</div>${adminButtons()}`}
- g.innerHTML=html;wireSecret();const a=$('#again'),b=$('#back');if(a)a.onclick=startRound;if(b)b.onclick=back}
-</script>
-</body></html>
+  <div class="top">
+    <div><div class="brand">🎲 Noche de Juegos</div><div class="muted">El celu reparte. La mesa juega.</div></div>
+    <div class="version">v0.3.0</div>
+  </div>
+
+  <section id="identity" class="card">
+    <div class="bigTitle">¿Quién sos?</div>
+    <p class="muted">El nombre queda guardado en este dispositivo.</p>
+    <div class="row mobile"><input id="nameInput" maxlength="20" placeholder="Nombre"><button id="enterBtn">Entrar</button></div>
+  </section>
+
+  <main id="main" class="hidden">
+    <section class="card">
+      <div class="row"><div class="pill"><span id="netDot" class="dot"></span><span id="netText">Conectando…</span></div><div id="rolePill" class="pill">Jugador</div></div>
+      <div class="rule"></div><div id="players" class="players"></div>
+    </section>
+
+    <section id="selector" class="card hidden">
+      <div class="bigTitle">Elegí el juego</div>
+      <p class="muted">Afinado para tres personas alrededor de una mesa.</p>
+      <div class="games">
+        <button class="game" data-game="chameleon"><span class="emoji">🦎</span><span><b>Camaleón</b><br><span class="muted">Palabra secreta + infiltrado.</span></span></button>
+        <button class="game" data-game="spyfall"><span class="emoji">🕵️</span><span><b>Spyfall</b><br><span class="muted">Lugar secreto + espía.</span></span></button>
+        <button class="game" data-game="coup"><span class="emoji">👑</span><span><b>Golpe</b><br><span class="muted">Roles, bluff y monedas físicas.</span></span></button>
+      </div>
+    </section>
+
+    <section id="waiting" class="card hidden center"><div class="emoji">🪑</div><div class="bigTitle">Esperando al admin</div><p class="muted">Cuando elija un juego entran todos automáticamente.</p></section>
+    <section id="game" class="card hidden"></section>
+  </main>
+</div>
+<div id="toast" class="toast hidden"></div>
+<script type="module" src="./app.js"></script>
+</body>
+</html>
